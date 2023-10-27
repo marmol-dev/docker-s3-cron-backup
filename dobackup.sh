@@ -21,13 +21,13 @@ else
   AWS_ARGS="--endpoint-url ${S3_ENDPOINT}"
 fi
 
-echo "creating archive"
-
 # if the variable ENABLE_PRINT_FILES is equal to true then we print the files in the archive else we write in /dev/null
 if [[ $ENABLE_PRINT_FILES == "true" ]];
 then
+    echo "creating archive"
     tar -zcvf $FILE_NAME $TARGET
 else
+    echo "creating archive (without printing files)"
     tar -zcvf $FILE_NAME $TARGET > /dev/null
 fi
 
