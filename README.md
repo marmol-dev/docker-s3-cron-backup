@@ -28,6 +28,7 @@ And the following optional environment variables:
 - `TARGET`: (Optional, defaults to `/data`) Specifies the target location to backup. Useful for sidecar containers and to filter files.
   - Example with multiple targets: `TARGET="/var/log/*.log /var/lib/mysql/*.dmp"`
 - `WEBHOOK_URL`: (Optional) URL to ping after successful backup, e.g. [StatusCake push monitoring](https://www.statuscake.com/kb/knowledge-base/what-is-push-monitoring/) or [healthchecks.io](https://healthchecks.io)
+- `ENABLE_PRINT_FILES`: (Optional, defaults to `false`) If set to `true`, the container will write to the stdout the files that are being backed up. Useful for debugging. **Warning**: If you have a lot of files, this will generate a lot of output.
 
 All environment variables prefixed with `AWS_` are directly used by [awscli](https://aws.amazon.com/cli/) that this image heavily relies on.
 

@@ -22,7 +22,16 @@ else
 fi
 
 echo "creating archive"
-tar -zcvf $FILE_NAME $TARGET
+
+# if the variable ENABLE_PRINT_FILES is equal to true then we print the files in the archive else we write in /dev/null
+if [[ $ENABLE_PRINT_FILES == "true" ]];
+then
+    tar -zcvf $FILE_NAME $TARGET
+else
+    tar -zcvf $FILE_NAME $TARGET > /dev/null
+fi
+
+
 echo "uploading archive to S3 [$FILE_NAME, storage class - $S3_STORAGE_CLASS]"
 aws s3 $AWS_ARGS cp --storage-class $S3_STORAGE_CLASS $FILE_NAME $S3_BUCKET_URL
 echo "removing local archive"
