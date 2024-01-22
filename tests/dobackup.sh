@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -x
-
 # get parent folder to this script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
@@ -12,11 +10,13 @@ PARENT_DIR="$(dirname "$DIR")"
 export BACKUP_NAME=test
 export TARGET=/tmp/test-backup
 export ENABLE_PRINT_FILES=true
+export UPLOAD_WITHOUT_ARCHIVE=true
+export UPLOAD_WITHOUT_ARCHIVE_CREATE_FOLDER_WITH_TIMESTAMP=true
 
 # create test backup data
 mkdir -p $TARGET
-echo "test" > $TARGET/test.txt
-echo "test" > $TARGET/test2.txt
+echo "test2" > $TARGET/test.txt
+echo "test2" > $TARGET/test2.txt
 
 # run dobackup.sh
 
@@ -28,7 +28,13 @@ docker run --rm \
     -e S3_ENDPOINT \
     -e ENABLE_PRINT_FILES \
     -e WEBHOOK_URL \
+    -e UPLOAD_WITHOUT_ARCHIVE \
+    -e UPLOAD_WITHOUT_ARCHIVE_CREATE_FOLDER_WITH_TIMESTAMP \
+    -e AWS_ACCESS_KEY_ID \
+    -e AWS_SECRET_ACCESS_KEY \
+    -e AWS_DEFAULT_REGION \
     -v $TARGET:$TARGET \
+    -v $PARENT_DIR/dobackup.sh:/dobackup.sh \
     --entrypoint /dobackup.sh \
     --name s3-cron-backup \
     marmol/s3-cron-backup

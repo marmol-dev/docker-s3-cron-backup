@@ -29,6 +29,8 @@ And the following optional environment variables:
   - Example with multiple targets: `TARGET="/var/log/*.log /var/lib/mysql/*.dmp"`
 - `WEBHOOK_URL`: (Optional) URL to ping after successful backup, e.g. [StatusCake push monitoring](https://www.statuscake.com/kb/knowledge-base/what-is-push-monitoring/) or [healthchecks.io](https://healthchecks.io)
 - `ENABLE_PRINT_FILES`: (Optional, defaults to `false`) If set to `true`, the container will write to the stdout the files that are being backed up. Useful for debugging. **Warning**: If you have a lot of files, this will generate a lot of output.
+- `UPLOAD_WITHOUT_ARCHIVE`: (Optional, defaults to `false`) If set to `true`, the container will upload the files without archiving them.
+- `UPLOAD_WITHOUT_ARCHIVE_CREATE_FOLDER_WITH_TIMESTAMP`: (Optional, defaults to `false`) If set to `true`, the container will upload the files without archiving them and will create a folder with the current timestamp.
 
 All environment variables prefixed with `AWS_` are directly used by [awscli](https://aws.amazon.com/cli/) that this image heavily relies on.
 
@@ -43,7 +45,7 @@ docker run \
   -e CRON_SCHEDULE="0 * * * *" \
   -e BACKUP_NAME=make-something-up \
   -v /your/awesome/data:/data:ro \
-  peterrus/s3-cron-backup
+-  marmol-dev/s3-cron-backup
 ```
 
 ### Docker-compose
@@ -53,7 +55,7 @@ version: '2'
 
 services:
   my-backup-unit:
-    image: peterrus/s3-cron-backup
+    image: marmol-dev/s3-cron-backup
     environment:
       - AWS_ACCESS_KEY_ID=SOME8AWS3ACCESS9KEY
       - AWS_SECRET_ACCESS_KEY=sUp3rS3cr3tK3y0fgr34ts3cr3cy
@@ -85,6 +87,7 @@ From a security perspective it is often preferable to create a dedicated IAM use
 ```
 
 # Contributors
+- [peterrus](https://github.com/peterrus)
 - [jayesh100](https://github.com/jayesh100)
 - [ifolarin](https://github.com/ifolarin)
 - [stex79](https://github.com/stex79)
