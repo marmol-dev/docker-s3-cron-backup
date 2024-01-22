@@ -22,13 +22,13 @@ else
 fi
 
 # if the variable ENABLE_PRINT_FILES is equal to true then we print the files in the archive else we write in /dev/null
-if [[ $ENABLE_PRINT_FILES == "true" ]];
+if [ -z "${ENABLE_PRINT_FILES}" ] || [ "${ENABLE_PRINT_FILES}" = "false" ]
 then
-    echo "creating archive"
-    tar -zcvf $FILE_NAME $TARGET
-else
     echo "creating archive (without printing files)"
     tar -zcvf $FILE_NAME $TARGET > /dev/null
+else
+    echo "creating archive (with printing files)"
+    tar -zcvf $FILE_NAME $TARGET
 fi
 
 
